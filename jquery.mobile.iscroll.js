@@ -80,8 +80,11 @@ function fixed(elm) {
 		$wrapper.bind('touchmove', function (e) { e.preventDefault(); });
 	}
 
-	var iscroll = new iScroll(elm.find('[data-iscroll="scroller"]').get(0), {desktopCompatibility:true});
-	elm.data("iscroll-plugin", iscroll);
+	var scroller = elm.find('[data-iscroll="scroller"]').get(0);
+	if (scroller) {
+		var iscroll = new iScroll(scroller, {desktopCompatibility:true});
+		elm.data("iscroll-plugin", iscroll);
+	}
 }
 $('[data-role="page"][data-iscroll="enable"]').live("pageshow", function() {
 	fixed($(this));
