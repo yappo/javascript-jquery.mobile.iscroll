@@ -50,6 +50,13 @@ function fixed(elm) {
 		return;
 	}
 
+	// XXX: fix crumbled css in transition changePage 
+	// for jquery mobile 1.0a3 in jquery.mobile.navigation.js changePage
+	//  in loadComplete in removeContainerClasses in .removeClass(pageContainerClasses.join(" "));
+	elm.css({
+		overflow: 'hidden'
+	});
+
 	var barHeight = 0;
 	var $header = elm.find('[data-role="header"]');
 	if ($header.length) {
