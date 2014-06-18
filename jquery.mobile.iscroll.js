@@ -79,6 +79,7 @@ function fixed(elm) {
 	}
 
 	var $wrapper = elm.find('[data-role="content"]');
+	$wrapper.css("overflow","hidden");
 	if ($wrapper.length) {
 		$wrapper.css({
 			"z-index": 1
@@ -89,14 +90,33 @@ function fixed(elm) {
 
 	var scroller = elm.find('[data-iscroll="scroller"]').get(0);
 	if (scroller) {
-		var iscroll = new iScroll(scroller, {desktopCompatibility:true});
+		var iscroll = new iScroll(scroller, {
+			desktopCompatibility: true, 
+			hScroll: false,
+			vScroll: true,
+			useTransition: false,
+			momentum: true,
+			lockDirection: false,
+			fixedScrollbar: true,
+			fadeScrollbar: true,
+			hideScrollbar: false,
+			onBeforeScrollStart: function (e) {
+				var target = e.target;
+				while (target.nodeType != 1){
+					target = target.parentNode;
+				} 
+				if (target.localName != "select" && target.localName != "input" && target.localName != "textarea"){
+					e.preventDefault();
+				}
+			}
+		});
 		elm.data("iscroll-plugin", iscroll);
 	}
 }
 $('[data-role="page"][data-iscroll="enable"]').live("pageshow", function() {
 	fixed($(this));
 });
-if ($.mobile.activePage.data("iscroll") == "enable") {
+if (($.mobile.activePage) && ($.mobile.activePage.data("iscroll") == "enable")) {
 	fixed($.mobile.activePage);
 }
 
